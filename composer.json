@@ -1,19 +1,12 @@
 {
-  "name": "georgringer/coreapi",
-  "version": "0.0.1",
-  "description": "The EXT:coreapi should provide a simple to use API for common core features.",
-  "type": "typo3cms-extension",
-  "replace": {
-    "coreapi": "*"
-  },
-  "repositories": [
-    {
-      "type": "composer",
-      "url": "http://composer.lightwerk.com/"
-    },
-    {
-      "type": "git",
-      "url": "https://github.com/georgringer/ext-coreapi.git"
-    }
-  ]
+	"name": "georgringer/coreapi",
+	"version": "0.0.1",
+	"description": "The EXT:coreapi should provide a simple to use API for common core features.",
+	"type": "typo3-cms-extension",
+	"replace": {
+		"coreapi": "*"
+	},
+	"require": {
+		"typo3/cms-core": "6.2.*"
+	}
 }
