@@ -68,7 +68,10 @@ class Tx_Coreapi_Service_DatabaseApiService {
 	public function databaseCompare($actions, $dry = FALSE) {
 		$errors = array();
 
-		$availableActions = array_flip(\TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Tx_Extbase_Reflection_ClassReflection', 'Tx_Coreapi_Service_DatabaseApiService')->getConstants());
+		$availableActions = array_flip(\TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+			'Tx_Extbase_Reflection_ClassReflection',
+			'Tx_Coreapi_Service_DatabaseApiService'
+		)->getConstants());
 
 		if (empty($actions)) {
 			throw new InvalidArgumentException('No compare modes defined');
@@ -83,7 +86,11 @@ class Tx_Coreapi_Service_DatabaseApiService {
 			$allowedActions[$split] = 1;
 		}
 
-		$tblFileContent = \TYPO3\CMS\Core\Utility\GeneralUtility::getUrl(PATH_t3lib . 'stddb/tables.sql');
+		$tblFileContent = '';
+
+		if (defined('PATH_t3lib')) {
+			$tblFileContent .= \TYPO3\CMS\Core\Utility\GeneralUtility::getUrl(PATH_t3lib . 'stddb/tables.sql');
+		}
 
 		foreach ($GLOBALS['TYPO3_LOADED_EXT'] as $loadedExtConf) {
 			if (is_array($loadedExtConf) && $loadedExtConf['ext_tables.sql']) {
@@ -92,8 +99,10 @@ class Tx_Coreapi_Service_DatabaseApiService {
 			}
 		}
 
-		if (is_callable('t3lib_cache::getDatabaseTableDefinitions')) {
+		if (is_callable('TYPO3\\CMS\\Core\\Cache\\Cache::getDatabaseTableDefinitions')) {
 			$tblFileContent .= \TYPO3\CMS\Core\Cache\Cache::getDatabaseTableDefinitions();
+		} elseif (is_callable('t3lib_cache::getDatabaseTableDefinitions')) {
+			$tblFileContent .= t3lib_cache::getDatabaseTableDefinitions();
 		}
 
 		if (class_exists('TYPO3\\CMS\\Core\\Category\\CategoryRegistry')) {
