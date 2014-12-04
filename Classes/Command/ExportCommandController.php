@@ -103,7 +103,7 @@ class Tx_Coreapi_Command_ExportCommandController extends \TYPO3\CMS\Extbase\Mvc\
 
 		$commandParts = array(
 			'cd ' . $path . '&&',
-			'tar zcvf',
+			'tar zcvhf',
 			$target,
 			'-C ' . $path,
 			'fileadmin/',
